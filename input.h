@@ -8,5 +8,5 @@
 ***********/
 
 void promptCheck(char *promptInput);
-
+void testcheck();
 void userInput(char *userInput);

@@ -32,6 +32,10 @@ void promptCheck(char *promptInput) {
     } while (validInput == false);
 }
 
+void testcheck() {
+    printf("test");
+}
+
 void userInput(char *userInput) {
     fgets(userInput, 99, stdin);
 }
