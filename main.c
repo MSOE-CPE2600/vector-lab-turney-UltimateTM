@@ -15,6 +15,7 @@
 
 int main(void) {
     char promptInput[100];
+    char testInput[50];
     char input[100];
     char *quit = "quit\n\0";
     Vector vList[10];   
