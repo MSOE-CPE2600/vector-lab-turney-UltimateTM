@@ -76,13 +76,6 @@ void inputParse(char *input, char *promptInput, Vector *list, int list_capacity,
                 return;
             }
 
-            // if list is full, do not add another vector
-            if (used_size == MAX_VECTORS && c.name[0] == '\0') {
-                printf("%s ", promptInput);
-                printf("Cannot add more vectors. List is full.\n");
-                return;
-            }
-
             // if vector already exists, modify it
             if (c.name[0] != '\0') {
                 addVectors(a, b, &c);
@@ -141,12 +134,6 @@ void inputParse(char *input, char *promptInput, Vector *list, int list_capacity,
                 printf("VECTOR NOT FOUND\n"); // If either vector is not found
                 return;
             }
-            // if list is full, do not add another vector
-            if (used_size == MAX_VECTORS && c.name[0] == '\0') {
-                printf("%s ", promptInput);
-                printf("Cannot add more vectors. List is full.\n");
-                return;
-            }
 
             if (c.name[0] != '\0') { // if vector to be assigned already exists
                 subtractVectors(a, b, &c);
@@ -197,11 +184,6 @@ void inputParse(char *input, char *promptInput, Vector *list, int list_capacity,
             Vector b = findvect(temp_input_coeff2, list, vector_list_size); // find vectors in list
             Vector c = findvect(temp_name, list, vector_list_size);
             Vector result;
-
-            if (a.name[0] == '\0' || b.name[0] == '\0') {
-                printf("VECTOR NOT FOUND\n"); // If either vector is not found
-                return;
-            }
 
             // if list is full, do not add another vector
             if (used_size == MAX_VECTORS && c.name[0] == '\0') {
@@ -263,12 +245,6 @@ void inputParse(char *input, char *promptInput, Vector *list, int list_capacity,
                 printf("VECTOR NOT FOUND\n"); // If either vector is not found
                 return;
             }
-            // if list is full, do not add another vector
-            if (used_size == MAX_VECTORS && c.name[0] == '\0') {
-                printf("%s ", promptInput);
-                printf("Cannot add more vectors. List is full.\n");
-                return;
-            }
 
             if (c.name[0] != '\0') { // if vector to be assigned already exists
                 crossProduct(a, b, &c); // perform cross product and store in existing vector
@@ -319,13 +295,6 @@ void inputParse(char *input, char *promptInput, Vector *list, int list_capacity,
             Vector result = findvect(temp_name, list, vector_list_size); // check if vector to be assigned already exists
             Vector a;
             double value;
-
-            // if list is full, do not add another vector
-            if (used_size == MAX_VECTORS && result.name[0] == '\0') {
-                printf("%s ", promptInput);
-                printf("Cannot add more vectors. List is full.\n");
-                return;
-            }
 
             if (atof(temp_input_coeff1) != 0) { // check which input is the scalar
                 value = atof(temp_input_coeff1); // convert string to double
