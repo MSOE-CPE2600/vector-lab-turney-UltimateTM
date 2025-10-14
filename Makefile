@@ -1,7 +1,7 @@
 CC=gcc
 CFLAGS=-c -Wall
-LDFLAGS=
-SOURCES= main.c input.c 
+LDFLAGS= -lm
+SOURCES= main.c input.c vec_operations.c 
 OBJECTS=$(SOURCES:.c=.o)
 EXECUTABLE= vec_calculator
 all: $(SOURCES) $(EXECUTABLE)

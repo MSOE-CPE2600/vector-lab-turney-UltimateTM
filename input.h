@@ -3,10 +3,31 @@
 * Author: Gabriel Limberg
 * Date: 30 Sept 2025
 * Version: 1.0
-* To Compile: gcc -o vctr_calc main.c vector.c input.c
+* To Compile: gcc -o vec_calculator main.c vector_operations.c input.c
 * Copyright (c) 2025
 ***********/
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "vector.h"
 
-void promptCheck(char *promptInput);
-void testcheck();
-void userInput(char *userInput);
+typedef enum {
+    OP_none,
+    OP_add = '+',
+    OP_sub = '-',
+    OP_dot = '*',
+    OP_cross = 'x',
+    OP_scalar = 'o',
+    OP_assign = '='
+} Operator;
+
+void promptCheck(char *promptInput); // Check for valid prompt input
+
+void inputParse(char *input, char *promptInput, Vector *list, int list_size, int used_size); // Parse user input and perform operations
+
+Operator determineOperator(char *input); // Determine the operator in the input string
+
+void clear(); // Clear the vector list
+
+void strToUpper(char *str); // Convert string to uppercase
+
