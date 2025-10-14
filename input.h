@@ -31,3 +31,7 @@ void clear(); // Clear the vector list
 
 void strToUpper(char *str); // Convert string to uppercase
 
+void openCSV(); // Open CSV file and read vectors from it
+
+void writeCSV(); // Write vectors to CSV file
+

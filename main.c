@@ -29,6 +29,9 @@ int main(void) {
     char *listCmd = "list";
     char *clearCmd = "clear";
     char *fill = "fill"; // command to fill vector list with sample data for testing
+    char *openCSV = "open"; // command to open CSV file and read vectors from it
+    char *writeCSV = "write"; // command to write vectors to CSV file
+
     Vector *vList; // dynamically allocate memory for vector list
     vList = malloc(INITIAL_VECTOR_CAPACITY * sizeof *vList); // allocate memory for vector list
     int vList_size = INITIAL_VECTOR_CAPACITY; // current size of vector list
@@ -44,33 +47,6 @@ int main(void) {
     promptCheck(promptInput);
 
     while (strcmp(input, quit) != 0) {
-        // while (vList_used == MAX_VECTORS) { // if vector list is full
-        //     printf("%s ", promptInput);
-        //     printf("Vector list full. Please clear the list using \"clear\" before adding more vectors.\n");
-        //     printf("%s ", promptInput);
-        //     fgets(input, INPUT_SIZE, stdin);
-        //     input[strcspn(input, "\n")] = '\0'; // Remove newline character
-
-        //     Operator operator = determineOperator(input); // determine operator in input
-
-        //     // Check if the operator is valid and not an assignment operator
-        //     // Also check if the input is not a command (list, clear, quit)
-        //     if (operator != OP_assign && strcmp(input, listCmd) != 0 && strcmp(input, clearCmd) != 0 && strcmp(input, quit) != 0) {
-        //         inputParse(input, promptInput, vList, vList_size, vList_used);
-        //     } else if (operator != OP_assign){
-        //         if (strcmp(input, clearCmd) == 0) {
-        //             clearList(vList);
-        //         } else if (strcmp(input, listCmd) == 0) {
-        //             list(vList);
-        //         } else if (strcmp(input, quit) == 0) {
-        //             clearList(vList);
-        //             quit_flag = 1; // set quit flag to exit program, had to type quit twice if list was full
-        //         }
-        //     } 
-            
-        //     vList_used = countUsedVectors(vList);
-        // }
-
         if (vList_used == vList_size) { // if vector list is full, reallocate memory to expand list
             Vector *temp = realloc(vList, (vList_size + INITIAL_VECTOR_CAPACITY) * sizeof *vList); // reallocate memory to expand vector list
             if (temp == NULL) {
@@ -82,10 +58,7 @@ int main(void) {
             }
         }
 
-        if (quit_flag == 1) { // if quit flag is set from array full, exit program
-            strcpy(input, quit);
-            free(vList); // free allocated memory
-        } else {
+        if (strcmp(input, quit) != 0) { // if user has not chosen to quit
             printf("%s ", promptInput);
             fgets(input, INPUT_SIZE, stdin);
             input[strcspn(input, "\n")] = '\0'; // Remove newline character
@@ -103,8 +76,12 @@ int main(void) {
                 fillVectorList(vList, vList_size, vList_used);
                 vList_used = countUsedVectors(vList, vList_size); // update used size
                 continue;
+            } else if (strcmp(input, openCSV) == 0) {
+
+            } else if (strcmp(input, writeCSV) == 0) {
+
             } else if (strcmp(input, quit) == 0) {
-                continue;
+                continue; // exit program
             }
             // parse input and perform operations
             inputParse(input, promptInput, vList, vList_size, vList_used);
@@ -147,14 +124,9 @@ int countUsedVectors(Vector *list, int size) { // Count the number of used vecto
 
 void fillVectorList(Vector *list, int Vlist_size, int usedVectors) { // Fill the vector list with sample data for testing
     for (int i = usedVectors; i < Vlist_size; i++) {
-        Vector temp = list[i];
-        char *random_name = malloc(10 * sizeof(char));
-        snprintf(random_name, 10, "v%d", i+1); // generate names
-        strcpy(temp.name, random_name);
-        temp.x = i * 1.0;
-        temp.y = i * 2.0;
-        temp.z = i * 3.0;
-        list[i] = temp;
-        free(random_name);
+        sprintf(list[i].name, "v%u", (unsigned)(i + 1));
+        list[i].x = i * 1.0;
+        list[i].y = i * 2.0;
+        list[i].z = i * 3.0;
     }
-}
+}   
