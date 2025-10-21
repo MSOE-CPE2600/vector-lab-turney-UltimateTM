@@ -3,7 +3,7 @@
 * Author: Gabriel Limberg
 * Date: 30 Sept 2025
 * Version: 1.0
-* To Compile: gcc -o vec_calculator main.c vector_operations.c input.c
+* To Compile: gcc -Wall -o vec_calculator main.c vector_operations.c input.c -lm
 * Copyright (c) 2025
 *
 ***********/
@@ -40,7 +40,7 @@ int main(void) {
     printf("Welcome to the Vector Calculator!\n");
     printf("Type 'list' to see all stored vectors, 'clear' to clear the vector list, and 'quit' to exit the program.\n");
     printf("To perform operations, use the format A = B + C or B + C to add vectors, A = B - C or B - C to subtract vectors,\n");
-    printf("A = B * C or B * C for dot product, A = B x C or B x C for cross product, A = B o n or B o n to multiply vector B by scalar n,\n");
+    printf("A = B * C or B * C for dot product, A = B x C or B x C for cross product, A = B o n or B o n to multiply vector B by scalar n\n");
     printf("To start the program, enter the command prompt 'matlab>' or any command followed by a '>'\n");
 
     fgets(promptInput, INPUT_SIZE, stdin);

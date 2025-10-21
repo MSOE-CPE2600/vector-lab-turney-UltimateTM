@@ -3,7 +3,7 @@
 * Author: Gabriel Limberg
 * Date: 30 Sept 2025
 * Version: 1.0
-* To Compile: gcc -o vec_calculator main.c vector_operations.c input.c
+* To Compile: gcc -Wall -o vec_calculator main.c vector_operations.c input.c -lm
 * Copyright (c) 2025
 ***********/
 #include <stdio.h>
