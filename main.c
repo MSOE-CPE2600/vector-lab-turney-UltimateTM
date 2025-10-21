@@ -29,8 +29,8 @@ int main(void) {
     char *listCmd = "list";
     char *clearCmd = "clear";
     char *fill = "fill"; // command to fill vector list with sample data for testing
-    char *openCSV = "open"; // command to open CSV file and read vectors from it
-    char *writeCSV = "write"; // command to write vectors to CSV file
+    char *open = "open"; // command to open CSV file and read vectors from it
+    char *write = "write"; // command to write vectors to CSV file
 
     Vector *vList; // dynamically allocate memory for vector list
     vList = malloc(INITIAL_VECTOR_CAPACITY * sizeof *vList); // allocate memory for vector list
@@ -76,9 +76,21 @@ int main(void) {
                 fillVectorList(vList, vList_size, vList_used);
                 vList_used = countUsedVectors(vList, vList_size); // update used size
                 continue;
-            } else if (strcmp(input, openCSV) == 0) {
+            } else if (strcmp(input, open) == 0) {
+                printf("Enter name of the file\n");
+                fgets(input, INPUT_SIZE, stdin);
+                input[strcspn(input, "\n")] = '\0'; // Remove newline character
 
-            } else if (strcmp(input, writeCSV) == 0) {
+            } else if (strcmp(input, write) == 0) {
+                if (vList_used == 0) {
+                    printf("Vector list is empty, please populate list before writing\n");
+                    continue;
+                }
+                printf("Enter name of the file\n");
+                fgets(input, INPUT_SIZE, stdin);
+                input[strcspn(input, "\n")] = '\0'; // Remove newline character
+                writeCSV(input, vList, vList_used);
+
 
             } else if (strcmp(input, quit) == 0) {
                 continue; // exit program

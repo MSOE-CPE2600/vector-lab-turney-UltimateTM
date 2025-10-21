@@ -442,3 +442,29 @@ Operator determineOperator(char *input) { // Determine the operator in the input
     }
     return op;
 }
+
+void openCSV(char *input, Vector *vlist, int vList_size) {
+
+}
+
+void writeCSV(char *input, Vector *vlist, int vList_used) {
+    char *filename;
+    int position;
+
+    if (sscanf(input, "%s.csv%n", filename, &position) == 2 || sscanf(input, "%s.csv%n", filename, &position) == 2) {
+        FILE *fp;
+        fp = fopen(input, "w+");
+        if (fp == NULL) {
+            printf("Error creating or opening the file!\n");
+            return; // Indicate an error
+        }
+
+        for (int i = 0; i < vList_used; i++) {
+            Vector temp = vlist[i];
+            fprintf(fp, "%s,%1f,%1f,%1f", temp.name, temp.x, temp.y, temp.z);
+        }
+    } else {
+        printf("Incorrect nameing format, please use correct format (i.e. list.csv or list)\n");
+    }
+
+}
