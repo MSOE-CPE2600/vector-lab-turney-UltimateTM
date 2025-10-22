@@ -31,7 +31,13 @@ void clear(); // Clear the vector list
 
 void strToUpper(char *str); // Convert string to uppercase
 
+void strToLower(char *str); // convert to lowercase
+
+int verifyFile(char *input); 
+
 void openCSV(char *input, Vector *list, int vList_size); // Open CSV file and read vectors from it
 
 void writeCSV(char *input, Vector *list, int vList_used); // Write vectors to CSV file
+
+void checkCSV(char *input);
 

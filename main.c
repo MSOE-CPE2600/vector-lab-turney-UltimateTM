@@ -24,7 +24,6 @@ void fillVectorList(Vector *list, int size, int usedVectors);
 int main(void) {
     char promptInput[INPUT_SIZE];
     char input[INPUT_SIZE];
-    int quit_flag = 0; // flag to indicate if user wants to quit
     char *quit = "quit";
     char *listCmd = "list";
     char *clearCmd = "clear";
@@ -80,6 +79,7 @@ int main(void) {
                 printf("Enter name of the file\n");
                 fgets(input, INPUT_SIZE, stdin);
                 input[strcspn(input, "\n")] = '\0'; // Remove newline character
+                continue;
 
             } else if (strcmp(input, write) == 0) {
                 if (vList_used == 0) {
@@ -90,8 +90,7 @@ int main(void) {
                 fgets(input, INPUT_SIZE, stdin);
                 input[strcspn(input, "\n")] = '\0'; // Remove newline character
                 writeCSV(input, vList, vList_used);
-
-
+                continue;
             } else if (strcmp(input, quit) == 0) {
                 continue; // exit program
             }

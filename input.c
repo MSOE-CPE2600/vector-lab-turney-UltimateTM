@@ -44,6 +44,12 @@ void strToUpper(char *str) {
     }
 }
 
+void strToLower(char *str) {
+    for (int i = 0; str[i]; i++) {
+        str[i] = tolower(str[i]);
+    }
+}
+
 void inputParse(char *input, char *promptInput, Vector *list, int list_capacity, int used_size) {
     Operator op;
     int vector_list_size = list_capacity;
@@ -448,12 +454,27 @@ void openCSV(char *input, Vector *vlist, int vList_size) {
 }
 
 void writeCSV(char *input, Vector *vlist, int vList_used) {
-    char *filename;
+    char filename[INPUT_SIZE];
+    char *csv = ".csv";
     int position;
+    
+    if (sscanf(input, "%s%n", filename, &position) == 1) {
 
-    if (sscanf(input, "%s.csv%n", filename, &position) == 2 || sscanf(input, "%s.csv%n", filename, &position) == 2) {
+      
+        sscanf(input, "%s%n", filename, &position);
+
+        if (endsWithCSV(input) == 0) {
+            strcat(filename, csv);
+            filename[strcspn(filename, "\n")] = '\0';
+        }
+    
+        if (filename[position] != '\0') {
+            printf("Invalid Filename, proper file name is as follows ""example.csv"" or ""example"" \n");
+            return;
+        }
+
         FILE *fp;
-        fp = fopen(input, "w+");
+        fp = fopen(filename, "w+");
         if (fp == NULL) {
             printf("Error creating or opening the file!\n");
             return; // Indicate an error
@@ -461,10 +482,18 @@ void writeCSV(char *input, Vector *vlist, int vList_used) {
 
         for (int i = 0; i < vList_used; i++) {
             Vector temp = vlist[i];
-            fprintf(fp, "%s,%1f,%1f,%1f", temp.name, temp.x, temp.y, temp.z);
+            fprintf(fp, "%s,%.1f,%.1f,%.1f\n", temp.name, temp.x, temp.y, temp.z);
         }
+        fclose(fp);
     } else {
-        printf("Incorrect nameing format, please use correct format (i.e. list.csv or list)\n");
+        printf("Incorrect naming format, please use correct format (i.e. list.csv or list)\n");
     }
 
+}
+
+void checkCSV(char *input) {
+    strToLower(input);
+    int length = strlen(input);
+
+    return length >= 4 && strcmp(input + length - 4, ".csv") == 0;
 }
