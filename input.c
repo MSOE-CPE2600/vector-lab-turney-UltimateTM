@@ -459,7 +459,7 @@ int verifyFile(char *input) {
     if (fp == NULL) {
         printf("File does not exist\n");
         return 1;
-    } else if (endsWithCSV(input) == 1) {
+    } else if (checkCSV(input) == 0) {
         printf("Invalid filetype. Can only write "".csv"" files\n");
         return 1;
     }
@@ -508,7 +508,7 @@ void writeCSV(char *input, Vector *vlist, int vList_used) {
       
         sscanf(input, "%s%n", filename, &position);
 
-        if (endsWithCSV(input) == 0) {
+        if (checkCSV(input) == 0) {
             strcat(filename, csv);
             filename[strcspn(filename, "\n")] = '\0';
         } else {
@@ -538,7 +538,7 @@ void writeCSV(char *input, Vector *vlist, int vList_used) {
 
 }
 
-void checkCSV(char *input) {
+int checkCSV(char *input) {
     strToLower(input);
     int length = strlen(input);
 

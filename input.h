@@ -39,5 +39,5 @@ void openCSV(char *input, Vector *list); // Open CSV file and read vectors from 
 
 void writeCSV(char *input, Vector *list, int vList_used); // Write vectors to CSV file
 
-void checkCSV(char *input);
+int checkCSV(char *input);
 

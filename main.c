@@ -84,10 +84,10 @@ int main(void) {
                     continue; // if file does not exist or incorrect file type, will not run
                 }
                 clearList(vList, vList_used);
-                vList_used, vList_size = verifyFile(input); // reset used size
+                vList_used = verifyFile(input); // reset used size
+                vList_size = vList_used + 1;
                 // reset vector list size to size of file that has been selected
                 vList = calloc(INITIAL_VECTOR_CAPACITY, sizeof *vList); // reset vector list
-                
                 Vector *temp = realloc(vList, (vList_used) * sizeof *vList); // set vList to same size as vector list in the read file
                 vList = temp;
                 openCSV(input, vList);
