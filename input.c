@@ -449,7 +449,52 @@ Operator determineOperator(char *input) { // Determine the operator in the input
     return op;
 }
 
-void openCSV(char *input, Vector *vlist, int vList_size) {
+
+int verifyFile(char *input) {
+    FILE* fp;
+    char data[INPUT_SIZE];
+    int fileSize;
+    fp = fopen(input, "r");
+
+    if (fp == NULL) {
+        printf("File does not exist\n");
+        return 1;
+    } else if (endsWithCSV(input) == 1) {
+        printf("Invalid filetype. Can only write "".csv"" files\n");
+        return 1;
+    }
+
+    while (fgets(data, INPUT_SIZE, fp) != NULL) {
+        fileSize++;
+    }
+    fclose(fp);
+    return fileSize; // returns the size (amount of vectors) present in the file
+}
+
+void openCSV(char *input, Vector *vlist) {
+    FILE* fp;
+    char data[INPUT_SIZE];
+    fp = fopen(input, "r");
+    int position = 0;
+
+    if (fp == NULL) {
+        printf("An error has ocurred\n");
+        return;
+    }
+
+    while (fgets(data, INPUT_SIZE, fp) != NULL) {
+        char name[INPUT_SIZE];
+        double x;
+        double y;
+        double z;
+        if (sscanf(data, "%s,%1f,%1f,%1f", name, &x, &y, &z) == 4) {
+            strcpy(vlist[position].name, name);
+            vlist[position].x = x;
+            vlist[position].y = y;
+            vlist[position].z = z;
+            position++;
+        }
+    }
 
 }
 
@@ -466,6 +511,8 @@ void writeCSV(char *input, Vector *vlist, int vList_used) {
         if (endsWithCSV(input) == 0) {
             strcat(filename, csv);
             filename[strcspn(filename, "\n")] = '\0';
+        } else {
+            printf("Invalid filetype. Can only write "".csv"" files\n");
         }
     
         if (filename[position] != '\0') {

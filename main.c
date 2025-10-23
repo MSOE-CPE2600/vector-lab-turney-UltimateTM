@@ -79,8 +79,19 @@ int main(void) {
                 printf("Enter name of the file\n");
                 fgets(input, INPUT_SIZE, stdin);
                 input[strcspn(input, "\n")] = '\0'; // Remove newline character
-                continue;
 
+                if (verifyFile(input) == 1) {
+                    continue; // if file does not exist or incorrect file type, will not run
+                }
+                clearList(vList, vList_used);
+                vList_used, vList_size = verifyFile(input); // reset used size
+                // reset vector list size to size of file that has been selected
+                vList = calloc(INITIAL_VECTOR_CAPACITY, sizeof *vList); // reset vector list
+                
+                Vector *temp = realloc(vList, (vList_used) * sizeof *vList); // set vList to same size as vector list in the read file
+                vList = temp;
+                openCSV(input, vList);
+                continue;
             } else if (strcmp(input, write) == 0) {
                 if (vList_used == 0) {
                     printf("Vector list is empty, please populate list before writing\n");
