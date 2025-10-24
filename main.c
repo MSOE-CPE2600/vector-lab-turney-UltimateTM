@@ -85,7 +85,7 @@ int main(void) {
                 }
                 clearList(vList, vList_used);
                 vList_used = verifyFile(input); // reset used size
-                vList_size = vList_used + 1;
+                vList_size = vList_used;
                 // reset vector list size to size of file that has been selected
                 vList = calloc(INITIAL_VECTOR_CAPACITY, sizeof *vList); // reset vector list
                 Vector *temp = realloc(vList, (vList_used) * sizeof *vList); // set vList to same size as vector list in the read file
@@ -108,7 +108,7 @@ int main(void) {
             // parse input and perform operations
             inputParse(input, promptInput, vList, vList_size, vList_used);
             vList_used = countUsedVectors(vList, vList_size); // update used size
-            printf("Used Vectors: %d\n", vList_used); // debug print to show used vectors
+            // printf("Used Vectors: %d\n", vList_used); // debug print to show used vectors
         }
         
     }
@@ -145,7 +145,7 @@ int countUsedVectors(Vector *list, int size) { // Count the number of used vecto
 }
 
 void fillVectorList(Vector *list, int Vlist_size, int usedVectors) { // Fill the vector list with sample data for testing
-    for (int i = usedVectors; i < Vlist_size; i++) {
+    for (int i = usedVectors; i <= Vlist_size; i++) {
         sprintf(list[i].name, "v%u", (unsigned)(i + 1));
         list[i].x = i * 1.0;
         list[i].y = i * 2.0;

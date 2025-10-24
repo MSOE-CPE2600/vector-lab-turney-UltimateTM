@@ -33,11 +33,11 @@ void strToUpper(char *str); // Convert string to uppercase
 
 void strToLower(char *str); // convert to lowercase
 
-int verifyFile(char *input);
+int verifyFile(char *input); // verify if file exist, then returns size of the file
 
 void openCSV(char *input, Vector *list); // Open CSV file and read vectors from it
 
 void writeCSV(char *input, Vector *list, int vList_used); // Write vectors to CSV file
 
-int checkCSV(char *input);
+int checkCSV(char *input); // checks if a user input ends with csv. if not, appends to end
 

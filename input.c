@@ -450,22 +450,22 @@ Operator determineOperator(char *input) { // Determine the operator in the input
 }
 
 
-int verifyFile(char *input) {
+int verifyFile(char *input) { 
     FILE* fp;
-    char data[INPUT_SIZE];
-    int fileSize;
-    fp = fopen(input, "r");
+    char data[INPUT_SIZE]; // data stream
+    int fileSize; // amount of vectors in file
+    fp = fopen(input, "r"); // reading file only
 
-    if (fp == NULL) {
-        printf("File does not exist\n");
+    if (fp == NULL) { // return 1 whenever there is an error
+        printf("File does not exist\n"); 
         return 1;
     } else if (checkCSV(input) == 0) {
-        printf("Invalid filetype. Can only write "".csv"" files\n");
+        printf("Invalid filetype. Can only write "".csv"" files\n"); // only allows csv files to be opened
         return 1;
     }
 
     while (fgets(data, INPUT_SIZE, fp) != NULL) {
-        fileSize++;
+        fileSize++; // counts the amount of rows of text (does not verify if correct)
     }
     fclose(fp);
     return fileSize; // returns the size (amount of vectors) present in the file
@@ -474,11 +474,11 @@ int verifyFile(char *input) {
 void openCSV(char *input, Vector *vlist) {
     FILE* fp;
     char data[INPUT_SIZE];
-    fp = fopen(input, "r");
+    fp = fopen(input, "r"); // reading file oly
     int position = 0;
 
     if (fp == NULL) {
-        printf("An error has ocurred\n");
+        printf("An error has ocurred\n"); // if an error somehow occurs
         return;
     }
 
@@ -487,20 +487,25 @@ void openCSV(char *input, Vector *vlist) {
         double x;
         double y;
         double z;
-        if (sscanf(data, "%s,%1f,%1f,%1f", name, &x, &y, &z) == 4) {
-            strcpy(vlist[position].name, name);
-            vlist[position].x = x;
-            vlist[position].y = y;
-            vlist[position].z = z;
+
+        // accepts only valid data inputs, then writes it into the vlist array
+        if (sscanf(data, "%[^,],%lf,%lf,%lf", name, &x, &y, &z) == 4) { // %s did not account for comma, need to use special scanning function
+            Vector temp;
+            strcpy(temp.name, name);
+            temp.x = x;
+            temp.y = y;
+            temp.z = z;
+            vlist[position] = temp;
             position++;
         }
     }
+    fclose(fp);
 
 }
 
 void writeCSV(char *input, Vector *vlist, int vList_used) {
     char filename[INPUT_SIZE];
-    char *csv = ".csv";
+    char *csv = ".csv"; // text to append at the end of input
     int position;
     
     if (sscanf(input, "%s%n", filename, &position) == 1) {
@@ -508,27 +513,29 @@ void writeCSV(char *input, Vector *vlist, int vList_used) {
       
         sscanf(input, "%s%n", filename, &position);
 
-        if (checkCSV(input) == 0) {
-            strcat(filename, csv);
-            filename[strcspn(filename, "\n")] = '\0';
-        } else {
-            printf("Invalid filetype. Can only write "".csv"" files\n");
-        }
-    
         if (filename[position] != '\0') {
             printf("Invalid Filename, proper file name is as follows ""example.csv"" or ""example"" \n");
+            // verification for proper input
             return;
         }
 
+        if (checkCSV(input) != 0) { 
+            strcpy(filename, input); // if the filename does contain .csv at the end, copy input into filename
+            filename[strcspn(filename, "\n")] = '\0';
+        } else {
+            strcat(filename, csv); // if filename does not contain, append .csv at the end
+            filename[strcspn(filename, "\n")] = '\0';
+        }
+
         FILE *fp;
-        fp = fopen(filename, "w+");
+        fp = fopen(filename, "w+"); // write and overwrite if present
         if (fp == NULL) {
             printf("Error creating or opening the file!\n");
             return; // Indicate an error
         }
 
         for (int i = 0; i < vList_used; i++) {
-            Vector temp = vlist[i];
+            Vector temp = vlist[i]; // writing into the list
             fprintf(fp, "%s,%.1f,%.1f,%.1f\n", temp.name, temp.x, temp.y, temp.z);
         }
         fclose(fp);
