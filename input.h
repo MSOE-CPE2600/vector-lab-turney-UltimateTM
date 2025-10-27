@@ -21,8 +21,6 @@ typedef enum {
     OP_assign = '='
 } Operator;
 
-void promptCheck(char *promptInput); // Check for valid prompt input
-
 void inputParse(char *input, char *promptInput, Vector *list, int list_size, int used_size); // Parse user input and perform operations
 
 Operator determineOperator(char *input); // Determine the operator in the input string

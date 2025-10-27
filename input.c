@@ -18,26 +18,6 @@
 #define MAX_VECTORS 10
 #define INPUT_SIZE 100
 
-
-void promptCheck(char *promptInput) {
-    bool validInput = true;
-    do {
-        int length = strlen(promptInput);
-
-        if (length > 0 && promptInput[length - 2] == '>') {
-            validInput = true;
-            if (length >= 2) {
-                promptInput[length - 1] = '\0'; 
-            }
-        } else {
-            validInput = false; 
-            printf("Invalid Input: Please use \">\" to indicate command usage\n");
-            fgets(promptInput, INPUT_SIZE, stdin);
-        }
-
-    } while (validInput == false);
-}
-
 void strToUpper(char *str) {
     for (int i = 0; str[i]; i++) {
         str[i] = toupper(str[i]);
@@ -510,7 +490,6 @@ void writeCSV(char *input, Vector *vlist, int vList_used) {
     
     if (sscanf(input, "%s%n", filename, &position) == 1) {
 
-      
         sscanf(input, "%s%n", filename, &position);
 
         if (filename[position] != '\0') {

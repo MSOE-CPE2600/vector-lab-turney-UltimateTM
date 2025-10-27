@@ -22,7 +22,7 @@ void fillVectorList(Vector *list, int size, int usedVectors);
 
 
 int main(void) {
-    char promptInput[INPUT_SIZE];
+    char *promptInput = "minimat>";
     char input[INPUT_SIZE];
     char *quit = "quit";
     char *listCmd = "list";
@@ -39,11 +39,8 @@ int main(void) {
     printf("Welcome to the Vector Calculator!\n");
     printf("Type 'list' to see all stored vectors, 'clear' to clear the vector list, and 'quit' to exit the program.\n");
     printf("To perform operations, use the format A = B + C or B + C to add vectors, A = B - C or B - C to subtract vectors,\n");
-    printf("A = B * C or B * C for dot product, A = B x C or B x C for cross product, A = B o n or B o n to multiply vector B by scalar n\n");
-    printf("To start the program, enter the command prompt 'matlab>' or any command followed by a '>'\n");
+    printf("A = B * C or B * C for dot product, A = B x C or B x C for cross product, A = B o n or B o n to multiply vector B by scalar\n\n");
 
-    fgets(promptInput, INPUT_SIZE, stdin);
-    promptCheck(promptInput);
 
     while (strcmp(input, quit) != 0) {
         if (vList_used == vList_size) { // if vector list is full, reallocate memory to expand list
@@ -67,6 +64,7 @@ int main(void) {
                 continue;
             } else if (strcmp(input, clearCmd) == 0) {
                 clearList(vList, vList_used);
+                free(vList); // found the source of the memory leak, did not free vList
                 vList_used = 0; // reset used size
                 vList_size = INITIAL_VECTOR_CAPACITY; // reset vector list size
                 vList = calloc(INITIAL_VECTOR_CAPACITY, sizeof *vList); // reset vector list
@@ -84,6 +82,7 @@ int main(void) {
                     continue; // if file does not exist or incorrect file type, will not run
                 }
                 clearList(vList, vList_used);
+                free(vList); // another source of memory leaks, fixed and working
                 vList_used = verifyFile(input); // reset used size
                 vList_size = vList_used;
                 // reset vector list size to size of file that has been selected
@@ -145,8 +144,9 @@ int countUsedVectors(Vector *list, int size) { // Count the number of used vecto
 }
 
 void fillVectorList(Vector *list, int Vlist_size, int usedVectors) { // Fill the vector list with sample data for testing
-    for (int i = usedVectors; i <= Vlist_size; i++) {
-        sprintf(list[i].name, "v%u", (unsigned)(i + 1));
+
+    for (int i = usedVectors; i < Vlist_size; i++) {
+        sprintf(list[i].name, "v%u", (i + 1));
         list[i].x = i * 1.0;
         list[i].y = i * 2.0;
         list[i].z = i * 3.0;
